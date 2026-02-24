@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube RAG — Chat with any Video</title>
+    <meta name="description"
+        content="Ask questions about any YouTube video using local AI models. Powered by RAG, FAISS, and Ollama." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- ─── Sidebar ───────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                </svg>
+                <span>YouTube RAG</span>
+            </div>
+        </div>
+
+        <!-- Video Input -->
+        <div class="sidebar-section">
+            <label class="section-label" for="videoId">Video ID</label>
+            <div class="input-group">
+                <input type="text" id="videoId" placeholder="e.g. dQw4w9WgXcQ" maxlength="20" autocomplete="off" />
+            </div>
+            <button id="loadBtn" class="btn btn-primary btn-block" style="margin-top: 8px;">
+                <span id="loadBtnText">Load Transcript</span>
+                <div id="loadSpinner" class="spinner" style="display: none;"></div>
+            </button>
+            <div id="videoPreview" class="video-preview" style="display: none;">
+                <img id="thumbnailImg" src="" alt="Thumbnail" />
+                <div id="videoTitle" class="video-title"></div>
+            </div>
+            <div class="status-bar" id="statusBar">Enter a video ID to begin</div>
+        </div>
+
+        <!-- Model Picker -->
+        <div class="sidebar-section">
+            <label class="section-label" for="modelSelect">Model</label>
+            <select id="modelSelect" class="select">
+                <option value="tinyllama">tinyllama</option>
+                <option value="phi3:mini">phi3:mini</option>
+            </select>
+        </div>
+
+        <!-- Info -->
+        <div class="sidebar-footer">
+            <p>Powered by <strong>Ollama</strong> &amp; <strong>FAISS</strong></p>
+            <p class="muted">100 % local — your data never leaves your machine</p>
+        </div>
+    </aside>
+
+    <!-- ─── Main Chat Area ────────────────────────────────────── -->
+    <main class="chat-area">
+        <!-- Mobile header -->
+        <header class="mobile-header" id="mobileHeader">
+            <button id="menuBtn" class="icon-btn" aria-label="Toggle sidebar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+            <span class="mobile-title">YouTube RAG</span>
+        </header>
+
+        <!-- Messages -->
+        <div class="messages" id="messages">
+            <div class="welcome">
+                <div class="welcome-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <defs>
+                            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#6C63FF" />
+                                <stop offset="100%" style="stop-color:#00D9FF" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                    </svg>
+                </div>
+                <h1>Chat with any YouTube Video</h1>
+                <p>Enter a video ID in the sidebar, load its transcript, then ask anything about the content.</p>
+            </div>
+        </div>
+
+        <!-- Input Bar -->
+        <div class="input-bar">
+            <div class="input-bar-inner">
+                <textarea id="questionInput" placeholder="Ask a question about the video…" rows="1" disabled></textarea>
+                <button id="sendBtn" class="btn btn-send" disabled title="Send">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+            <p class="input-hint">Responses generated locally via Ollama · No data leaves your machine</p>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
