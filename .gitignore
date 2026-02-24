@@ -1,12 +1,10 @@
-venv/
-.venv/
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
 .Python
 env/
-.env
 build/
 develop-eggs/
 dist/
@@ -24,6 +22,16 @@ wheels/
 *.egg
 .pytest_cache/
 .vscode/
-.git/
+
+# Project specific
+backend/venv/
+backend/.env
+youtube-rag/backend/venv/
+
+# Docker
 .dockerignore
-node_modules/
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
